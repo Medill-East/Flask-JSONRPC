@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Flask JSON-RPC</title>
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+  <script>
+    function selectAct(id, theAct) {
+      var a = document.getElementById(id).innerHTML = theAct;
+    }
+  </script>
+
+  <script type="text/javascript">
+    function json_post_00() {
+      var InY = document.getElementById("id_year").value;
+      var InM = document.getElementById("id_month").value;
+      var InD = document.getElementById("id_day").value;
+      var object = {};
+      var params = [];
+      var Inputime;
+      // document.getElementById("id_result_date_00").innerHTML = "";
+      Inputime = InY + InM + InD;
+      var nInY = Number(InY);
+      var nInM = Number(InM);
+      var nInD = Number(InD);
+      if (nInY < 1900 || nInY > 2019) alert("请输入正确的年份！");
+      if (nInM < 0 || nInM > 12) alert("请输入正确的月份！");
+      if (nInD < 0 || nInD > 31) alert("请输入正确的日期！");
+      object["id"] = "774";
+      object["method"] = "comparetime";
+      object["jsonrpc"] = "2.0";
+      object["params"] = [Inputime];
+      var json = JSON.stringify(object);
+      $(document).ready(function() {
+        $.ajax({
+          type: 'POST',
+          url: "http://localhost:5000/",
+          data: json,
+          contentType: 'application/json; charset=UTF-8',
+          success: function(data) {
+            // console.log(data.result);
+            $("#id_result_date_00").text(data.result);
+          },
+          error:function(err){
+            alert('Can not connect the server!');}
+        });
+      });
+    }
+  </script>
+  <script type="text/javascript">
+    function json_post_01() {
+      var In1 = document.getElementById("id_binary1").value;
+      var In2 = document.getElementById("id_binary2").value;
+      var Way = document.getElementById("x").innerHTML;
+      var object = {};
+      var params = [];
+      var binaryReg = /^[0-1]+$/;
+      var decimalReg = /^[0-9]+$/;
+      var hexadecimalReg = /^([0-9])|([a-fA-F])/;
+      // document.getElementById("id_result_logical").innerHTML = "";
+
+      function checkBinary(binary) {
+        return binaryReg.test(binary);
+      }
+
+      function checkDecimal(decimal) {
+        return decimalReg.test(decimal);
+      }
+
+      function checkHex(hex) {
+        return hexadecimalReg.test(hex);
+      }
+      object["id"] = "774";
+      object["method"] = "LogicNum";
+      object["jsonrpc"] = "2.0";
+      object["params"] = [In1, In2, Way]
+      if (!checkBinary(In1)) {
+        alert("二进制数1输入错误，请检查");
+      }
+      if (!checkBinary(In2)) {
+        alert("二进制数2输入错误，请检查");
+      }
+      var json = JSON.stringify(object);
+      $(document).ready(function() {
+        $.ajax({
+          type: 'POST',
+          url: "http://localhost:5000/",
+          data: json,
+          contentType: 'application/json; charset=UTF-8',
+          success: function(data) {
+            $("#id_result_logical").text(data.result);
+          },
+          error:function(err){
+            alert('Can not connect the server!');}
+        });    
+      });
+    }
+  </script>
+  <script type="text/javascript">
+    function json_post_02() {
+      var Input = document.getElementById("id_binaryIn").value;
+      var Isn = document.getElementById("fun02_1").innerHTML;
+      var Osn = document.getElementById("fun02_2").innerHTML;
+      var object = {};
+      var params = [];
+      var binaryReg = /^[0-1]+$/;
+      var decimalReg = /^[0-9]+$/;
+      var hexadecimalReg = /^[0-9A-F]+$/i;
+      // document.getElementById("id_result_logical").innerHTML = "";
+
+      function checkBinary(binary) {
+        return binaryReg.test(binary);
+      }
+
+      function checkDecimal(decimal) {
+        return decimalReg.test(decimal);
+      }
+
+      function checkHex(hex) {
+        return hexadecimalReg.test(hex);
+      }
+      object["id"] = "774";
+      object["method"] = "Convert";
+      object["jsonrpc"] = "2.0";
+      object["params"] = [Input, Isn, Osn]
+      if (((Isn == "Binary") && (!checkBinary(Input))) || ((Isn == "Decimal") && (!checkDecimal(Input))) || ((Isn == "Hexadecimal") && (!checkHex(Input)))) {
+        alert("非法输入，请检查");
+      }
+      var json = JSON.stringify(object);
+      $(document).ready(function() {
+        $.ajax({
+          type: 'POST',
+          url: "http://localhost:5000/",
+          data: json,
+          contentType: 'application/json; charset=UTF-8',
+          success: function(data) {
+            $("#output02").text(data.result);
+          },
+          error:function(err){
+            alert('Can not connect the server!');}
+        });    
+      });
+    }
+  </script>
+  <!-- <script src="resources/scripts/axure/ios.js"></script> -->
+  <script type="text/javascript">
+    function json_post_03() {
+      var Code = document.getElementById("fun03_in").value;
+      var Way = document.getElementById("fun03_1").innerHTML;
+      var object = {};
+      var params = [];
+      // document.getElementById("output03").innerHTML = "";
+      object["id"] = "774";
+      object["method"] = "AEScode";
+      object["jsonrpc"] = "2.0";
+      object["params"] = [Code, Way];
+      var json = JSON.stringify(object);
+      $(document).ready(function() {
+        $.ajax({
+          type: 'POST',
+          url: "http://localhost:5000/",
+          data: json,
+          contentType: 'application/json; charset=UTF-8',
+          success: function(data) {
+            // console.log(data.result);
+            if (data.result) $("#output03").text(data.result);
+            else alert("AES解密失败");},
+          error:function(err){
+            alert('Can not connect the server!');}
+        });    
+      });
+    }
+  </script>
+</head>
+
+<body id="page-top" class="" style="">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-shrink" id="mainNav" style="">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">Flask JSON-RPC</a>
+      <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"> Menu <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#cover">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#background">Background</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger active" href="#team">Team</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Header -->
+  <header class="masthead" id="cover">
+    <div class="container">
+      <div class="intro-text" style="">
+        <div class="intro-lead-in">Welcome To Our Web!</div>
+        <div class="intro-heading text-uppercase">It's Nice To Meet You</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services" style="margin-right:40px">Try it</a><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#background" style="margin-right:40px">Background</a>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#team">Know us</a>
+      </div>
+    </div>
+  </header>
+  <!-- Services -->
+  <!-- Portfolio Grid -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">SERVICES</h2>
+          <h3 class="section-subheading text-muted">The following are jsonrpc demo applications</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 portfolio-item col-md-3">
+          <a class="portfolio-link" data-toggle="modal" href="#date">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+              </div>
+            </div>
+            <i class="fas fa-plus fa-3x"></i><img class="img-fluid d-block ml-4 mx-auto border-0" src="img/myself/date.png">
+          </a>
+          <h4 class="service-heading text-center">Date Count</h4>
+          <div class="portfolio-caption">
+            <p class="text-muted text-center">Enter a date Get the difference between that date and today's date</p>
+          </div>
+        </div>
+        <div class="col-sm-6 portfolio-item col-md-3">
+          <a class="portfolio-link" data-toggle="modal" href="#logicaloperation">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid d-block ml-4 mx-auto" src="img/myself/calculator.png">
+          </a>
+          <h4 class="service-heading text-center">Logical Operation</h4>
+          <div class="portfolio-caption">
+            <p class="text-muted text-center">Perform simple binary operations</p>
+          </div>
+        </div>
+        <div class="col-sm-6 portfolio-item col-md-3">
+          <a class="portfolio-link" data-toggle="modal" href="#convertor">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid d-block ml-4 mx-auto" src="img/myself/converters.png">
+          </a>
+          <h5 class="service-heading text-center">Hexadecimal Convertor</h5>
+          <div class="portfolio-caption">
+            <p class="text-muted text-center">Convert between binary, decimal, and hexadecimal</p>
+          </div>
+        </div>
+        <div class="col-sm-6 portfolio-item col-md-3">
+          <a class="portfolio-link" data-toggle="modal" href="#cryption">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid d-block ml-4 mx-auto" src="img/myself/lock.png">
+          </a>
+          <h4 class="service-heading text-center">E/Decryption</h4>
+          <div class="portfolio-caption">
+            <p class="text-muted text-center" contenteditable="true">Encrypt and decrypt</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-light page-section" id="background">
+    <div class="container">
+      <div class="row" style="">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Background</h2>
+          <h3 class="section-subheading text-muted">Here is some background on the project.</h3>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-6 portfolio-item" style="">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card text-center">
+              <div class="card-header">&nbsp;</div>
+              <div class="card-body">
+                <h5 class="card-title">JSON-RPC</h5>
+                <p class="card-text">JSON-RPC is a stateless, light-weight remote procedure call (RPC) protocol. Primarily this specification defines several data structures and the rules around their processing. It is transport agnostic in that the concepts can be used within the same process, over sockets, over http, or in many various message passing environments. It uses JSON (RFC 4627) as data format. It is designed to be simple!</p>
+                <a class="btn btn-primary" onclick="javascript:window.open('https://www.jsonrpc.org/specification')">Know more about JSON-RPC</a>
+              </div>
+              <div class="card-footer text-muted">&nbsp;</div>
+            </div><img class="img-fluid d-block w-50 mx-auto" src="img/myself/flask.png">
+            <div class="col-md-12">
+              <div class="card text-center">
+                <div class="card-header">&nbsp;</div>
+                <div class="card-body">
+                  <h5 class="card-title">Flask</h5>
+                  <p class="card-text">Flask is a microframework for Python based on Werkzeug, Jinja 2 and good intentions..</p>
+                  <a class="btn btn-primary" onclick="javascript:window.open('http://flask.pocoo.org/')">Know more about Flask</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- About -->
+  <!-- Team -->
+  <section class="page-section" id="team">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Our Amazing Team</h2>
+          <h3 class="section-subheading text-muted">The collective is the source of power, all is the cradle of sisdom</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3 col-md-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/head/1.jpg" alt="">
+            <h4>Haodong Liao</h4>
+            <p class="text-muted">Front-end Developer</p>
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/head/2.jpg" alt="">
+            <h4>Yinze Yang</h4>
+            <p class="text-muted">Back-end Developer</p>
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/head/3.jpg" alt="">
+            <h4>Junkai Zhang</h4>
+            <p class="text-muted">UI Desiner</p>
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-3">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/head/4.jpg" alt="">
+            <h4>Liqi Chen</h4>
+            <p class="text-muted">Robustness Tester</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="large text-muted">Every effort pays off.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Clients -->
+  <!-- Contact -->
+  <!-- Footer -->
+  <!-- Portfolio Modals -->
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="date" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-uppercase">SERVICES</h2>
+              <p class="item-intro text-muted">This is a jsonrpc demo application</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="p-5 col-md-12 d-flex flex-column justify-content-center">
+                <img class="img-fluid d-block ml-4 mx-auto border-0" src="img/myself/date.png">
+                <h3 class="display-4 mb-3">Date Count</h3>
+                <p class="mb-4 lead">Enter a date&nbsp;<br>Get the difference between that date and today's date</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-5 col-md-12">
+                <h3 class="mb-3">Input a date</h3>
+                <form>
+                  <div id="u17_input" class="form-group"> <label>Year</label> <input class="form-control text-center" placeholder="Type here" id="id_year"> </div>
+                  <div id="u18_input" class="form-group"> <label>Month</label> <input class="form-control text-center" placeholder="Type here" id="id_month"> </div>
+                  <div id="u19_input" class="form-group"> <label>Day</label> <input class="form-control text-center" placeholder="Type here" id="id_day"> </div>
+                  <input value="Submit" type="button" onclick="json_post_00()" class="btn mt-4 btn-block p-2 btn-outline-dark">
+                </form>
+                <div class="form-group">
+                  <div class="form-group">
+                    <div class="form-group"><label>&nbsp;</label><output class="form-control text-center" id="id_result_date_00">Result</output></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i> Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- func1 -->
+  <script type="text/javascript" style="">
+    function getRandomInRange(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function date() {
+      var InY = document.getElementById("id_year").value;
+      var InM = document.getElementById("id_month").value;
+      var InD = document.getElementById("id_day").value;
+      var object = {};
+      var params = [];
+      var Inputime;
+      Inputime = InY + InM + InD;
+      var nInY = Number(InY);
+      var nInM = Number(InM);
+      var nInD = Number(InD);
+      if (nInY < 0 || nInY > 2019) alert("Please enter a proper year!");
+      if (nInM < 0 || nInM > 12) alert("Please enter a proper month!");
+      if (nInD < 0 || nInD > 31) alert("Please enter a proper date!");
+      object["id"] = getRandomInRange(0, 100);
+      object["method"] = "comparetime";
+      object["jsonrpc"] = "2.0";
+      object["params"] = [Inputime];
+      var json = JSON.stringify(object);
+      $(document).ready(function() {
+        $.ajax({
+          type: 'POST',
+          url: "http://localhost:5000/",
+          data: json,
+          contentType: 'application/json; charset=UTF-8',
+          success: function(data) {
+            // console.log(data.result);
+            $("#id_result_date").text(data.result);
+          }
+        });
+      });
+    }
+  </script>
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="logicaloperation" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-uppercase">SERVICES</h2>
+              <p class="item-intro text-muted">This is a jsonrpc demo application</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="p-5 col-md-12 d-flex flex-column justify-content-center">
+                <img class="img-fluid d-block ml-4 mx-auto" src="img/myself/calculator.png">
+                <h3 class="display-5 mb-3">Logical Operation</h3>
+                <p class="mb-4 lead">Perform simple binary operations</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-5 col-md-12">
+                <h3 class="mb-3">Input two binary number</h3>
+                <form>
+                  <div class="form-group"> <label>Binary number one</label> <input class="form-control text-center" placeholder="Type here" id="id_binary1"> </div>
+                  <div class="form-group"> <label>Binary number two</label> <input class="form-control text-center" placeholder="Type here" id="id_binary2">
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="btn-group w-100 text-center">
+                        <button id="x" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Dropdown </button>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);"> <a class="dropdown-item text-center" onclick="selectAct('x','AND')">AND</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-center" onclick="selectAct('x','OR')">OR</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item text-center" onclick="selectAct('x','XOR')">XOR</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input value="Submit" type="button" onclick="json_post_01()" class="btn mt-4 btn-block btn-outline-dark p-2 w-100">
+                </form>
+                <div class="form-group text-center w-100">
+                  <div class="form-group">
+                    <div class="form-group"><label>&nbsp;</label><output class="form-control text-center" id="id_result_logical">Result</output></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i> Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- func2 -->
+  <script type="text/javascript" style="">
+    function logical() {
+      var In1 = document.getElementById("u27_input").value;
+      var In2 = document.getElementById("u28_input").value;
+      var Way = document.getElementById("u25_input").value;
+      var object = {};
+      var params = [];
+      var binaryReg = /^[0-1]+$/;
+      var decimalReg = /^[0-9]+$/;
+      var hexadecimalReg = /^([0-9])|([a-fA-F])/;
+
+      function checkBinary(binary) {
+        return binaryReg.test(binary);
+      }
+
+      function checkDecimal(decimal) {
+        return decimalReg.test(decimal);
+      }
+
+      function checkHex(hex) {
+        return hexadecimalReg.test(hex);
+      }
+      object["id"] = getRandomInRange(0, 100);
+      object["method"] = "LogicNum";
+      object["jsonrpc"] = "2.0";
+      object["params"] = [In1, In2, Way]
+      if (!checkBinary(In1)) {
+        alert("二进制数1输入错误，请检查");
+      }
+      if (!checkBinary(In2)) {
+        alert("二进制数2输入错误，请检查");
+      }
+      var json = JSON.stringify(object);
+      $(document).ready(function() {
+        $.ajax({
+          type: 'POST',
+          url: "http://localhost:5000/",
+          data: json,
+          contentType: 'application/json; charset=UTF-8',
+          success: function(data) {
+            $("#u47_input").text(data.result);
+          }
+        });
+      });
+    }
+  </script>
+  <!-- Modal 3 -->
+  <div class="portfolio-modal modal fade" id="convertor" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-uppercase">SERVICES</h2>
+              <p class="item-intro text-muted">This is a jsonrpc demo application</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="p-5 col-md-12 d-flex flex-column justify-content-center">
+                <img class="img-fluid d-block ml-4 mx-auto" src="img/myself/converters.png">
+                <h3 class="display-5 mb-3">Hexadecimal Convertor</h3>
+                <p class="mb-4 lead">Convert between binary, decimal, and hexadecimal</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-5 col-md-12">
+                <h3 class="mb-3">Input number</h3>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group"> <label>input number</label> <input class="form-control text-center" placeholder="Type here" id="id_binaryIn"> </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="btn-group w-100 text-center">
+                      <button id="fun02_1" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Dropdown </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);"> <a class="dropdown-item text-center" onclick="selectAct('fun02_1','Binary')">Binary</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" onclick="selectAct('fun02_1','Decimal')">Decimal</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" onclick="selectAct('fun02_1','Hexadecimal')">Hexadecimal</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form>
+                  <input value="Submit" type="button" onclick="json_post_02()" class="btn mt-4 btn-block btn-outline-dark p-2">
+                </form>
+                <div class="form-group">
+                  <div class="form-group">
+                    <div class="form-group"><label>&nbsp;</label>
+                      <div class="row">
+                        <div class="col-md-8"><output class="form-control text-center" id="output02">Result</output></div>
+                        <div class="col-md-4">
+                          <div class="btn-group w-100 text-center">
+                            <button id="fun02_2" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Dropdown </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);"> <a class="dropdown-item text-center" onclick="selectAct('fun02_2','Binary')">Binary</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-center" onclick="selectAct('fun02_2','Decimal')">Decimal</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-center" onclick="selectAct('fun02_2','Hexadecimal')">Hexadecimal</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i> Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal 4 -->
+  <div class="portfolio-modal modal fade" id="cryption" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-uppercase">SERVICES</h2>
+              <p class="item-intro text-muted">This is a jsonrpc demo application</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="p-5 col-md-12 d-flex flex-column justify-content-center">
+                <img class="img-fluid d-block ml-4 mx-auto" src="img/myself/lock.png">
+                <h3 class="display-5 mb-3">En &amp; Decryption</h3>
+                <p class="mb-4 lead">Perform simple binary operations</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-5 col-md-12" style="">
+                <h3 class="mb-3">Input the number</h3>
+                <form>
+                  <div class="form-group"><label>input string</label><input id="fun03_in" class="form-control text-center" placeholder="Type here"></div>
+                  <div class="form-group">
+                    <div class="btn-group w-100 text-center" style="">
+                      <button id="fun03_1" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Dropdown </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);"> <a class="dropdown-item text-center" onclick="selectAct('fun03_1','Encryption')">Encryption</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" onclick="selectAct('fun03_1','Decryption')">Decryption</a>
+                        <div class="dropdown-divider"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <input value="Submit" type="button" onclick="json_post_03()" class="btn mt-4 btn-block btn-outline-dark p-2">
+                </form>
+                <div class="form-group">
+                  <div class="form-group">
+                    <div class="form-group"><label>&nbsp;</label><output class="form-control text-center" id="output03">Result</output></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i> Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal 5 -->
+  <!-- Modal 6 -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+<!--   <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 20px;right:20px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:220px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">Made with Pingendo Free&nbsp;&nbsp;<img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16"></pingendo> -->
+</body>
+
+</html>
